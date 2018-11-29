@@ -72,6 +72,19 @@ const logSampleSpace = function(side,aliveArray){
   console.log(outlineGenerator(side,presentObject));
 }
 
+const filterCellsWithinBound = function(bounds){
+  let side = bounds.bottomRight[0]+1;
+  let sampleArray = [];
+  for (let i= 1; i<= Math.pow(side,2); i++){
+    let value = convertValueToCoordinate([i],side);
+    if(value[0][0] >= bounds.topLeft[0] && value[0][1] >= bounds.topLeft[1]){
+      sampleArray.push(value[0]);
+    }
+  }
+  return sampleArray;
+}
+
+
 module.exports = {
   createObject,
   convertCoordinateToValue,
