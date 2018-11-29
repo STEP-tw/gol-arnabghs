@@ -37,13 +37,8 @@ const convertCoordinateToValue = function(inputArray,bounds){
 }
 
 const convertValueToCoordinate = function(input,side){
-  let result = [];
-  for(let element of input){
-    result.push([Math.floor((element-1)/side) , (element-1)%side]);
-  }
-  return result;
+  return input.map(x => [Math.floor((x-1)/side),(x-1)%side]);
 }
-
 
 const produceAlive = function(object,array){
   for(let element of array){
