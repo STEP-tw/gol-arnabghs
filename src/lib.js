@@ -36,6 +36,14 @@ const convertCoordinateToValue = function(inputArray,bounds){
   return {side: side, livePositionValue: inputArrayOfValue}
 }
 
+const convertValueToCoordinate = function(input,side){
+  let result = [];
+  for(let element of input){
+    result.push([Math.floor((element-1)/side) , (element-1)%side]);
+  }
+  return result;
+}
+
 
 const produceAlive = function(object,array){
   for(let element of array){
@@ -72,5 +80,6 @@ const logSampleSpace = function(side,aliveArray){
 module.exports = {
   createObject,
   convertCoordinateToValue,
+  convertValueToCoordinate,
   produceNextGenAliveCells }
 
