@@ -84,6 +84,10 @@ const filterCellsWithinBound = function(bounds){
   return sampleArray;
 }
 
+const selectAliveWithinBound = function(currGeneration,bounds){
+  let filteredSampleSpace = filterCellsWithinBound(bounds);
+  return currGeneration.filter(x => filteredSampleSpace.some(y => y.toString() === x.toString()));
+}
 
 module.exports = {
   createObject,
