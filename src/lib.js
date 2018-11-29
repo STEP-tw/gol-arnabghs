@@ -89,6 +89,12 @@ const selectAliveWithinBound = function(currGeneration,bounds){
   return currGeneration.filter(x => filteredSampleSpace.some(y => y.toString() === x.toString()));
 }
 
+const getModifiedCurrGen = function (currGeneration,bounds){
+  let diff = bounds.topLeft[0] - 0;
+  return currGeneration.map(x => x.map(y => y-diff));
+}
+
+
 module.exports = {
   createObject,
   convertCoordinateToValue,
