@@ -27,7 +27,8 @@ describe('nextGeneration',() => {
     let expectedNextGen = []
     let bounds = {topLeft: [1,1], bottomRight: [3,3]};
     let actualNextGen = nextGeneration(currentGeneration,bounds);
-    assert.ok(isSame(actualNextGen,expectedNextGen));
-    assert.ok(isSameArity(actualNextGen,expectedNextGen));
+    // assert.ok(isSame(actualNextGen,expectedNextGen));
+    // assert.ok(isSameArity(actualNextGen,expectedNextGen));
+    assert.deepEqual(actualNextGen,expectedNextGen);
   });
 });
