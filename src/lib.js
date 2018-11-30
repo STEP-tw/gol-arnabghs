@@ -40,13 +40,6 @@ const convertValueToCoordinate = function(input,side){
   return input.map(x => [Math.floor((x-1)/side),(x-1)%side]);
 }
 
-const produceAlive = function(object,array){
-  for(let element of array){
-    object[element] = '*';
-  }
-  return object;
-}
-
 const getAllNeighbours = function(side,position){
   if((position-1)%side == 0) return getNeighboursFirstColumn(side,position);
   if(position % side == 0) return getNeighboursLastColumn(side,position);
@@ -64,12 +57,6 @@ const produceNextGenAliveCells = function(side,object,aliveArray){
   const aliveNeighbourLength = getLiveNeighboursLength.bind(null,aliveArray,side);
   let aliveCells = aliveArray.filter(x => aliveNeighbourLength(x)==2 || aliveNeighbourLength(x)==3);
   return aliveCells.concat(deadCells.filter(x => aliveNeighbourLength(x) == 3));
-}
-
-const logSampleSpace = function(side,aliveArray){
-  let emptyObject = createObject(side);
-  let presentObject = produceAlive(emptyObject,aliveArray);
-  console.log(outlineGenerator(side,presentObject));
 }
 
 const filterCellsWithinBound = function(bounds){
