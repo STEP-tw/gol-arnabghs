@@ -29,6 +29,16 @@ const getNeighboursMiddleColumn = function(length,width,position){
   return filterNeighbours(length,width,neighbours);
 }
 
+const getAllNeighbours = function(length,width,position){
+  if((position-1)%length == 0) return getNeighboursFirstColumn(length,width,position);
+  if(position % length == 0) return getNeighboursLastColumn(length,width,position);
+  return getNeighboursMiddleColumn(length,width,position);
+}
+
+const getLiveNeighboursLength = function(aliveArray,length,width,position){
+  let allNeighbourArray = getAllNeighbours(length,width,position);
+  return allNeighbourArray.filter(x => aliveArray.includes(x)).length;
+}
 const convertCoordinateToValue = function(inputArray,bounds){
   let length = bounds.bottomRight[1]-bounds.topLeft[1]+1;
   let width = bounds.bottomRight[0]-bounds.topLeft[0]+1;
@@ -39,18 +49,6 @@ const convertCoordinateToValue = function(inputArray,bounds){
 
 const convertValueToCoordinate = function(input,length){
   return input.map(x => [Math.floor((x-1)/length),(x-1)%length]);
-}
-
-const getAllNeighbours = function(length,width,position){
-  if((position-1)%length == 0) return getNeighboursFirstColumn(length,width,position);
-  if(position % length == 0) return getNeighboursLastColumn(length,width,position);
-  return getNeighboursMiddleColumn(length,width,position);
-}
-
-
-const getLiveNeighboursLength = function(aliveArray,length,width,position){
-  let allNeighbourArray = getAllNeighbours(length,width,position);
-  return allNeighbourArray.filter(x => aliveArray.includes(x)).length;
 }
 
 const produceNextGenAliveCells = function(length,width,object,aliveArray){
@@ -82,5 +80,5 @@ module.exports = {
   convertValueToCoordinate,
   produceNextGenAliveCells,
   getModifiedCurrGen,
-  getModifiedNextGen}
+  getModifiedNextGen }
 
