@@ -81,8 +81,9 @@ describe('nextGeneration', () => {
     let bounds = { topLeft: [-1,-1], bottomRight: [0,0]};
     let expectedNextGen = [[-1,-1],[-1,0],[0,-1],[0,0]];
     let actualNextGen = nextGeneration(currentGeneration,bounds);
-    assert.ok(isSame(actualNextGen, expectedNextGen));
-    assert.ok(isSameArity(actualNextGen, expectedNextGen));
+    //assert.ok(isSame(actualNextGen, expectedNextGen));
+    //assert.ok(isSameArity(actualNextGen, expectedNextGen));
+    assert.deepEqual(actualNextGen, expectedNextGen);
   });
 });
 
