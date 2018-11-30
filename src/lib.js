@@ -94,10 +94,19 @@ const getModifiedCurrGen = function (currGeneration,bounds){
   return currGeneration.map(x => x.map(y => y-diff));
 }
 
+const getModifiedNextGen = function (currGeneration,bounds){
+  let diff = bounds.topLeft[0] - 0;
+  return currGeneration.map(x => x.map(y => y+diff));
+}
+
+
 
 module.exports = {
   createObject,
   convertCoordinateToValue,
   convertValueToCoordinate,
-  produceNextGenAliveCells }
+  produceNextGenAliveCells,
+  selectAliveWithinBound,
+  getModifiedCurrGen,
+  getModifiedNextGen}
 
