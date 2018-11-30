@@ -60,42 +60,27 @@ const produceNextGenAliveCells = function(length,width,object,aliveArray){
   return aliveCells.concat(deadCells.filter(x => aliveNeighbourLength(x) == 3));
 }
 
-const filterCellsWithinBound = function(bounds){
-  let length = bounds.bottomRight[1]+1;
-  let width = bounds.bottomRight[0]+1;
-  let sampleArray = [];
-  for (let i= 1; i<= length*width; i++){
-    let value = convertValueToCoordinate([i],length);
-    if(value[0][0] >= bounds.topLeft[0] && value[0][1] >= bounds.topLeft[1]){
-      sampleArray.push(value[0]);
-    }
-  }
-  return sampleArray;
-}
-
-const selectAliveWithinBound = function(currGeneration,bounds){
-  let filteredSampleSpace = filterCellsWithinBound(bounds);
-  return currGeneration.filter(x => filteredSampleSpace.some(y => y.toString() === x.toString()));
-}
-
 const getModifiedCurrGen = function (currGeneration,bounds){
-  let diff = bounds.topLeft[0] - 0;
-  return currGeneration.map(x => x.map(y => y-diff));
+  return currGeneration.map(function(x){
+    x[0] = x[0] - bounds.topLeft[0];
+    x[1] = x[1] - bounds.topLeft[1];
+    return x;
+  })
 }
 
 const getModifiedNextGen = function (currGeneration,bounds){
-  let diff = bounds.topLeft[0] - 0;
-  return currGeneration.map(x => x.map(y => y+diff));
+  return currGeneration.map(function(x){
+    x[0] = x[0] + bounds.topLeft[0];
+    x[1] = x[1] + bounds.topLeft[1];
+    return x;
+  })
 }
-
-
 
 module.exports = {
   createObject,
   convertCoordinateToValue,
   convertValueToCoordinate,
   produceNextGenAliveCells,
-  selectAliveWithinBound,
   getModifiedCurrGen,
   getModifiedNextGen}
 
