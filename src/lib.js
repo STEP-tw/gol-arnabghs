@@ -1,69 +1,71 @@
-const createObject = function(side){
+const createObject = function(length,width){
   let sampleObject = {};
-  for(index=1; index <= Math.pow(side,2); index++){
+  for(index=1; index <= length*width; index++){
     sampleObject[index] = ' ';
   }
   return sampleObject;
 }
 
-const filterNeighbours = function(side,inputArray){
-  totalArray =  Object.keys(createObject(side)).map(x => +x)
+const filterNeighbours = function(length,width,inputArray){
+  totalArray =  Object.keys(createObject(length,width)).map(x => +x)
   return inputArray.filter(x => totalArray.includes(x));
 }
 
-const getNeighboursFirstColumn = function(side,position){
-  let p = position, s = side;
-  let neighbours = new Array(0).concat(p-s,p-s+1,p+1,p+s,p+s+1);
-  return filterNeighbours(side,neighbours);
+const getNeighboursFirstColumn = function(length,width,position){
+  let p = position, l = length;
+  let neighbours = new Array(0).concat(p-l,p-l+1,p+1,p+l,p+l+1);
+  return filterNeighbours(length,width,neighbours);
 }
 
-const getNeighboursLastColumn = function(side,position){
-  let p = position, s = side;
-  let neighbours = new Array(0).concat(p-s-1,p-s,p-1,p+s-1,p+s);
-  return filterNeighbours(side,neighbours);
+const getNeighboursLastColumn = function(length,width,position){
+  let p = position, l = length;
+  let neighbours = new Array(0).concat(p-l-1,p-l,p-1,p+l-1,p+l);
+  return filterNeighbours(length,width,neighbours);
 }
 
-const getNeighboursMiddleColumn = function(side,position){
-  let p = position, s = side;
-  let neighbours = new Array(0).concat(p-s-1,p-s,p-s+1,p-1,p+1,p+s-1,p+s,p+s+1);
-  return filterNeighbours(side,neighbours);
+const getNeighboursMiddleColumn = function(length,width,position){
+  let p = position, l = length;
+  let neighbours = new Array(0).concat(p-l-1,p-l,p-l+1,p-1,p+1,p+l-1,p+l,p+l+1);
+  return filterNeighbours(length,width,neighbours);
 }
 
 const convertCoordinateToValue = function(inputArray,bounds){
-  let side = bounds.bottomRight[1]-bounds.topLeft[1]+1;
-  inputArray = inputArray.map(x => x.filter(y => y<side));
-  let inputArrayOfValue = inputArray.map(x => x[0]*side+x[1]+1);
-  return {side: side, livePositionValue: inputArrayOfValue}
+  let length = bounds.bottomRight[1]-bounds.topLeft[1]+1;
+  let width = bounds.bottomRight[0]-bounds.topLeft[0]+1;
+  inputArray = inputArray.map(x => x.filter(y => y<length));
+  let inputArrayOfValue = inputArray.map(x => x[0]*length+x[1]+1);
+  return {length: length, width: width, livePositionValue: inputArrayOfValue}
 }
 
-const convertValueToCoordinate = function(input,side){
-  return input.map(x => [Math.floor((x-1)/side),(x-1)%side]);
+const convertValueToCoordinate = function(input,length){
+  return input.map(x => [Math.floor((x-1)/length),(x-1)%length]);
 }
 
-const getAllNeighbours = function(side,position){
-  if((position-1)%side == 0) return getNeighboursFirstColumn(side,position);
-  if(position % side == 0) return getNeighboursLastColumn(side,position);
-  return getNeighboursMiddleColumn(side,position);
+const getAllNeighbours = function(length,width,position){
+  if((position-1)%length == 0) return getNeighboursFirstColumn(length,width,position);
+  if(position % length == 0) return getNeighboursLastColumn(length,width,position);
+  return getNeighboursMiddleColumn(length,width,position);
 }
 
 
-const getLiveNeighboursLength = function(aliveArray,lengthOfSide,position){
-  let allNeighbourArray = getAllNeighbours(lengthOfSide,position);
+const getLiveNeighboursLength = function(aliveArray,length,width,position){
+  let allNeighbourArray = getAllNeighbours(length,width,position);
   return allNeighbourArray.filter(x => aliveArray.includes(x)).length;
 }
 
-const produceNextGenAliveCells = function(side,object,aliveArray){
+const produceNextGenAliveCells = function(length,width,object,aliveArray){
   let deadCells = Object.keys(object).map(x => +x).filter(x => !aliveArray.includes(x));
-  const aliveNeighbourLength = getLiveNeighboursLength.bind(null,aliveArray,side);
+  const aliveNeighbourLength = getLiveNeighboursLength.bind(null,aliveArray,length,width);
   let aliveCells = aliveArray.filter(x => aliveNeighbourLength(x)==2 || aliveNeighbourLength(x)==3);
   return aliveCells.concat(deadCells.filter(x => aliveNeighbourLength(x) == 3));
 }
 
 const filterCellsWithinBound = function(bounds){
-  let side = bounds.bottomRight[0]+1;
+  let length = bounds.bottomRight[1]+1;
+  let width = bounds.bottomRight[0]+1;
   let sampleArray = [];
-  for (let i= 1; i<= Math.pow(side,2); i++){
-    let value = convertValueToCoordinate([i],side);
+  for (let i= 1; i<= length*width; i++){
+    let value = convertValueToCoordinate([i],length);
     if(value[0][0] >= bounds.topLeft[0] && value[0][1] >= bounds.topLeft[1]){
       sampleArray.push(value[0]);
     }
