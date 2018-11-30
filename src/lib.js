@@ -1,13 +1,13 @@
 const createObject = function(length,width){
   let sampleObject = {};
-  for(index=1; index <= length*width; index++){
+  for(let index=1; index <= length*width; index++){
     sampleObject[index] = ' ';
   }
   return sampleObject;
 }
 
 const filterNeighbours = function(length,width,inputArray){
-  totalArray =  Object.keys(createObject(length,width)).map(x => +x)
+  let totalArray =  Object.keys(createObject(length,width)).map(x => +x)
   return inputArray.filter(x => totalArray.includes(x));
 }
 
