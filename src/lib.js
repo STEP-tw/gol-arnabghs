@@ -80,5 +80,11 @@ module.exports = {
   convertValueToCoordinate,
   produceNextGenAliveCells,
   getModifiedCurrGen,
-  getModifiedNextGen }
+  getModifiedNextGen,
+filterNeighbours,
+getNeighboursFirstColumn,
+getNeighboursMiddleColumn,
+getNeighboursLastColumn,
+getAllNeighbours,
+getLiveNeighboursLength }
 
