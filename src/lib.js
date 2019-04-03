@@ -63,25 +63,27 @@ const convertCoordinateToValue = function(inputArray, bounds) {
   let width = bounds.bottomRight[0] - bounds.topLeft[0] + 1;
   inputArray = inputArray.map(x => x.filter(y => y < length));
   let inputArrayOfValue = inputArray.map(x => x[0] * length + x[1] + 1);
-  return { length: length, width: width, livePositionValue: inputArrayOfValue };
+  return { length: length, width: width, alivePositions: inputArrayOfValue };
 };
 
 const convertValueToCoordinate = function(input, length) {
   return input.map(x => [Math.floor((x - 1) / length), (x - 1) % length]);
 };
 
-const produceNextGenAliveCells = function(length, width,aliveArray) {
+const produceNextGenAliveCells = function(length, width, aliveArray) {
   let initValue = 1;
   let deadCells = new Array(length * width)
     .fill(0)
     .map(x => initValue++)
     .filter(x => !aliveArray.includes(x));
+
   const aliveNeighbourLength = getLiveNeighboursLength.bind(
     null,
     aliveArray,
     length,
     width
   );
+
   let aliveCells = aliveArray.filter(
     x => aliveNeighbourLength(x) == 2 || aliveNeighbourLength(x) == 3
   );

@@ -7,17 +7,11 @@ const {
 } = require("./lib.js");
 
 const nextGeneration = function(currGeneration, bounds) {
-  let modifiedCurrGen = deductUpperBounds(currGeneration, bounds);
-  let { length, width, livePositionValue } = convertCoordinateToValue(
-    modifiedCurrGen,
-    bounds
-  );
+  const currentGenCoordinates = deductUpperBounds(currGeneration, bounds);
+  const currGenValues = convertCoordinateToValue(currentGenCoordinates, bounds);
+  const { length, width, alivePositions } = currGenValues;
 
-  let nextGenValues = produceNextGenAliveCells(
-    length,
-    width,
-    livePositionValue
-  ).sort((a, b) => a - b);
+  const nextGenValues = produceNextGenAliveCells(length, width, alivePositions);
   let nextGenCoordinates = convertValueToCoordinate(nextGenValues, length);
   return addUpperBounds(nextGenCoordinates, bounds);
 };

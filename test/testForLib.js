@@ -83,13 +83,13 @@ describe("test for lib", function() {
     it("for empty input array should return empty array", function() {
       assert(
         convertCoordinateToValue([], { topLeft: [0, 0], bottomRight: [3, 3] }),
-        { length: 4, width: 4, livePositionValue: [] }
+        { length: 4, width: 4, alivePositions: [] }
       );
     });
     it("for bounds 0,0 should return side length 1", function() {
       assert(
         convertCoordinateToValue([], { topLeft: [0, 0], bottomRight: [0, 0] }),
-        { length: 1, width: 1, livePositionValue: [] }
+        { length: 1, width: 1, alivePositions: [] }
       );
     });
     it("for non-empty array should preserve the length of array", function() {
@@ -98,7 +98,7 @@ describe("test for lib", function() {
           topLeft: [0, 0],
           bottomRight: [2, 2]
         }),
-        { length: 3, width: 3, livePositionValue: [2, 5] }
+        { length: 3, width: 3, alivePositions: [2, 5] }
       );
     });
   });
