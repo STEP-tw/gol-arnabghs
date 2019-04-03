@@ -1,7 +1,6 @@
 const assert = require("assert").deepEqual;
 
 const {
-  // createObject,
   filterNeighbours,
   getNeighboursFirstColumn,
   getNeighboursMiddleColumn,
@@ -10,6 +9,13 @@ const {
   getLiveNeighboursLength,
   convertCoordinateToValue
 } = require("../src/lib.js");
+
+const contains = (list, element) =>
+  list.some(e => e[0] === element[0] && e[1] === element[1]);
+const isSame = (actualList, expectedList) =>
+  actualList.every(contains.bind(null, expectedList));
+const isSameArity = (actualList, expectedList) =>
+  actualList.length == expectedList.length;
 
 describe("test for lib", function() {
   describe("test for filterNeighbours", function() {
@@ -25,8 +31,11 @@ describe("test for lib", function() {
       assert(getNeighboursFirstColumn(0, 0, 1), []);
     });
     it("for different size an position array length will depend on the position", function() {
-      assert(getNeighboursFirstColumn(4, 4, 1), [2, 5, 6]);
-      assert(getNeighboursFirstColumn(4, 4, 9), [5, 6, 10, 13, 14]);
+      isSame(getNeighboursFirstColumn(4, 4, 1), [2, 5, 6]);
+      isSameArity(getNeighboursFirstColumn(4, 4, 1), [2, 5, 6]);
+
+      isSame(getNeighboursFirstColumn(4, 4, 9), [5, 6, 10, 13, 14]);
+      isSameArity(getNeighboursFirstColumn(4, 4, 9), [5, 6, 10, 13, 14]);
     });
   });
   describe("test for getNeighboursLastColumn", function() {
@@ -34,8 +43,11 @@ describe("test for lib", function() {
       assert(getNeighboursLastColumn(0, 0, 1), []);
     });
     it("for different size an position array length will depend on the position", function() {
-      assert(getNeighboursLastColumn(4, 4, 4), [3, 7, 8]);
-      assert(getNeighboursLastColumn(4, 4, 12), [7, 8, 11, 15, 16]);
+      isSame(getNeighboursLastColumn(4, 4, 4), [3, 7, 8]);
+      isSameArity(getNeighboursLastColumn(4, 4, 4), [3, 7, 8]);
+
+      isSame(getNeighboursLastColumn(4, 4, 12), [7, 8, 11, 15, 16]);
+      isSameArity(getNeighboursLastColumn(4, 4, 12), [7, 8, 11, 15, 16]);
     });
   });
   describe("test for getNeighboursMiddleColumn", function() {
@@ -43,8 +55,29 @@ describe("test for lib", function() {
       assert(getNeighboursMiddleColumn(0, 0, 1), []);
     });
     it("for different sizes array length will depend on the position", function() {
-      assert(getNeighboursMiddleColumn(4, 4, 6), [1, 2, 3, 5, 7, 9, 10, 11]);
-      assert(getNeighboursMiddleColumn(4, 4, 11), [
+      isSame(getNeighboursMiddleColumn(4, 4, 6), [1, 2, 3, 5, 7, 9, 10, 11]);
+      isSameArity(getNeighboursMiddleColumn(4, 4, 6), [
+        1,
+        2,
+        3,
+        5,
+        7,
+        9,
+        10,
+        11
+      ]);
+
+      isSame(getNeighboursMiddleColumn(4, 4, 11), [
+        6,
+        7,
+        8,
+        10,
+        12,
+        14,
+        15,
+        16
+      ]);
+      isSameArity(getNeighboursMiddleColumn(4, 4, 11), [
         6,
         7,
         8,
@@ -61,11 +94,20 @@ describe("test for lib", function() {
       assert(getAllNeighbours(0, 0, 1), []);
     });
     it("for different sizes array length will depend on the position", function() {
-      assert(getAllNeighbours(4, 4, 6), [1, 2, 3, 5, 7, 9, 10, 11]);
-      assert(getAllNeighbours(4, 4, 11), [6, 7, 8, 10, 12, 14, 15, 16]);
-      assert(getAllNeighbours(3, 3, 3), [2, 5, 6]);
-      assert(getAllNeighbours(3, 3, 4), [1, 2, 5, 7, 8]);
-      assert(getAllNeighbours(3, 3, 5), [1, 2, 3, 4, 6, 7, 8, 9]);
+      isSame(getAllNeighbours(4, 4, 6), [1, 2, 3, 5, 7, 9, 10, 11]);
+      isSameArity(getAllNeighbours(4, 4, 6), [1, 2, 3, 5, 7, 9, 10, 11]);
+
+      isSame(getAllNeighbours(4, 4, 11), [6, 7, 8, 10, 12, 14, 15, 16]);
+      isSameArity(getAllNeighbours(4, 4, 11), [6, 7, 8, 10, 12, 14, 15, 16]);
+
+      isSame(getAllNeighbours(3, 3, 3), [2, 5, 6]);
+      isSameArity(getAllNeighbours(3, 3, 3), [2, 5, 6]);
+
+      isSame(getAllNeighbours(3, 3, 4), [1, 2, 5, 7, 8]);
+      isSameArity(getAllNeighbours(3, 3, 4), [1, 2, 5, 7, 8]);
+
+      isSame(getAllNeighbours(3, 3, 5), [1, 2, 3, 4, 6, 7, 8, 9]);
+      isSameArity(getAllNeighbours(3, 3, 5), [1, 2, 3, 4, 6, 7, 8, 9]);
     });
   });
   describe("test for getLiveNeighboursLength", function() {
